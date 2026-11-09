@@ -1,11 +1,7 @@
-@extends('layouts.app')
-
-@section('title', $title)
-
-@section('content')
-<div class="card">
-    <div class="card-body">
-        <p class="text-secondary mb-0">{{ $title }} page placeholder.</p>
-    </div>
-</div>
-@endsection
+<x-layouts.app :title="__($title)">
+    <x-card>
+        <div class="card-body">
+            <p class="text-secondary mb-0">{{ __(':title page is under construction.', ['title' => __($title)]) }}</p>
+        </div>
+    </x-card>
+</x-layouts.app>

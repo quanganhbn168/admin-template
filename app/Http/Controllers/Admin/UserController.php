@@ -33,7 +33,7 @@ class UserController extends Controller
 
         User::create($data);
 
-        return redirect()->route('admin.users.index')->with('success', 'User created.');
+        return redirect()->route('admin.users.index')->with('success', __('User created.'));
     }
 
     public function edit(User $user)
@@ -55,17 +55,17 @@ class UserController extends Controller
 
         $user->update($data);
 
-        return redirect()->route('admin.users.index')->with('success', 'User updated.');
+        return redirect()->route('admin.users.index')->with('success', __('User updated.'));
     }
 
     public function destroy(Request $request, User $user): RedirectResponse
     {
         if ($user->is($request->user()) || $user->is_super_admin) {
-            return back()->with('error', 'Super admin accounts cannot be deleted.');
+            return back()->with('error', __('Super admin accounts cannot be deleted.'));
         }
 
         $user->delete();
 
-        return redirect()->route('admin.users.index')->with('success', 'User deleted.');
+        return redirect()->route('admin.users.index')->with('success', __('User deleted.'));
     }
 }

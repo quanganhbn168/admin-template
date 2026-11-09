@@ -1,31 +1,16 @@
-@extends('layouts.app')
-
-@section('title', 'Dashboard')
-
-@section('content')
-<div class="row row-deck row-cards">
-    @foreach ([['Users', '1,234', 'ti-users'], ['Orders', '342', 'ti-shopping-cart'], ['Revenue', '$12,480', 'ti-currency-dollar'], ['Visits', '48,210', 'ti-eye']] as [$label, $value, $icon])
-        <div class="col-sm-6 col-lg-3">
-            <div class="card">
+<x-layouts.app :title="__('Dashboard')">
+    <div class="row row-deck row-cards">
+        <div class="col-sm-6 col-lg-3"><x-stat-card :label="__('Users')" value="1,234" icon="ti-users" /></div>
+        <div class="col-sm-6 col-lg-3"><x-stat-card :label="__('Orders')" value="342" icon="ti-shopping-cart" color="green" /></div>
+        <div class="col-sm-6 col-lg-3"><x-stat-card :label="__('Revenue')" value="12.480.000đ" icon="ti-currency-dong" color="orange" /></div>
+        <div class="col-sm-6 col-lg-3"><x-stat-card :label="__('Visits')" value="48.210" icon="ti-eye" color="azure" /></div>
+        <div class="col-12">
+            <x-card>
                 <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <span class="bg-primary text-white avatar me-3"><i class="ti {{ $icon }} fs-2"></i></span>
-                        <div>
-                            <div class="fw-bold">{{ $value }}</div>
-                            <div class="text-secondary">{{ $label }}</div>
-                        </div>
-                    </div>
+                    <h3 class="card-title">Laravel + Tabler</h3>
+                    <p class="text-secondary mb-0">{{ __('Your Tabler setup is working.') }}</p>
                 </div>
-            </div>
-        </div>
-    @endforeach
-    <div class="col-12">
-        <div class="card">
-            <div class="card-body">
-                <h3 class="card-title">Laravel + Tabler</h3>
-                <p class="text-secondary mb-0">Your Tabler setup is working.</p>
-            </div>
+            </x-card>
         </div>
     </div>
-</div>
-@endsection
+</x-layouts.app>
