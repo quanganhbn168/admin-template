@@ -6,3 +6,8 @@
         </div>
     @endif
 @endforeach
+
+{{-- ->with('celebrate', true) pours confetti once the page has loaded (see resources/js/app.js). --}}
+@if (session('celebrate'))
+    <span data-confetti-auto class="position-fixed top-0 start-50" aria-hidden="true"></span>
+@endif

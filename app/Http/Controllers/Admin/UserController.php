@@ -36,7 +36,7 @@ class UserController extends Controller
 
         User::create($data);
 
-        return redirect()->route('admin.users.index')->with('success', __('User created.'));
+        return redirect()->route('admin.users.index')->with('success', __('User created.'))->with('celebrate', true);
     }
 
     public function edit(User $user)

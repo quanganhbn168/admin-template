@@ -1,4 +1,4 @@
-import { Toast } from '@tabler/core';
+import { Confetti, Toast } from '@tabler/core';
 
 // Show / hide password: any <a data-toggle-password> inside an .input-group.
 // Labels come from data-show-label / data-hide-label so they stay translatable.
@@ -20,6 +20,9 @@ document.addEventListener('click', (event) => {
 
 // <x-toast> renders with data-auto-show: display it as soon as the page is ready.
 document.querySelectorAll('.toast[data-auto-show]').forEach((el) => Toast.getOrCreateInstance(el).show());
+
+// ->with('celebrate', true) renders <span data-confetti-auto>: pour confetti once on page load.
+document.querySelectorAll('[data-confetti-auto]').forEach((el) => Confetti.getOrCreateInstance(el).burst());
 
 // <x-form.select search> -> TomSelect (library loaded by <x-lib name="select">).
 document.querySelectorAll('select[data-tom-select]').forEach((el) => {

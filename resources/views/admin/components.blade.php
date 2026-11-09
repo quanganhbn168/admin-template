@@ -31,6 +31,7 @@
             'x-calendar' => '<x-calendar :events="[[title,start,end,allDay,color]]" view="dayGridMonth" />   (FullCalendar)',
             'x-form.editor' => '<x-form.editor name="content" label="Nội dung" :height="300" />   (HugeRTE; làm sạch HTML ở server)',
             'x-dropzone' => '<x-dropzone accepted="image/*,.pdf" :max-size="5" />   (POST /admin/uploads → storage/app/public/uploads; không đặt trong form khác)',
+            'x-confetti' => '<x-confetti :count="300" colors="#f76707, #d63939">Chúc mừng</x-confetti>  ·  sau một thao tác: redirect()->with(\'celebrate\', true)',
             'x-trend' => '<x-trend :value="2" />  (xanh ↑, đỏ ↓, xám khi 0)',
             'Layout' => 'UI_LAYOUT vertical|horizontal|condensed · UI_WIDTH boxed|fluid · UI_SIDEBAR folded · UI_SIDEBAR_STYLE end|transparent · UI_NAVBAR_STICKY · UI_NAVBAR_STYLE floating · UI_PRIMARY, UI_BASE, UI_FONT, UI_RADIUS  (config/ui.php)',
             'x-social-button' => '<x-social-button provider="github" />   (facebook, github, google, instagram, linkedin, pinterest, twitter, x, youtube)',
@@ -51,6 +52,8 @@
                         <x-button variant="danger" outline>Danger</x-button>
                         <x-button variant="warning" size="sm">Small</x-button>
                         <x-button href="#" variant="link">Link</x-button>
+                        <x-confetti variant="outline-primary" />
+                        <x-confetti :count="300" :duration="3000" colors="#f76707, #f59f00, #d63939, #d6336c">{{ __('Warm') }}</x-confetti>
                     </div>
                     <div class="d-flex flex-wrap gap-2 align-items-center">
                         <x-badge>Blue</x-badge>
