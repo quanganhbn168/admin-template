@@ -1,58 +1,121 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Admin Template
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Khung quản trị **Laravel 13 + Tabler 1.7** bằng tiếng Việt, để nhân bản cho nhiều dự án. Không có đăng ký công khai: tài khoản do super admin tạo.
 
-## About Laravel
+**Có sẵn**
+- Đăng nhập, quên và đặt lại mật khẩu, hồ sơ, đổi mật khẩu, quản lý người dùng (chỉ super admin), cài đặt (tên ứng dụng, múi giờ, ghi chú chân trang).
+- 3 kiểu menu (dọc, ngang, gọn), boxed/fluid, đổi màu chủ đạo, tất cả chỉnh bằng `.env`.
+- Dashboard mẫu (biểu đồ, bản đồ, widget), khoảng 70 component Blade, bảng dữ liệu phía máy chủ, lịch, trình soạn thảo, tải tệp, trang lỗi.
+- Giao diện tiếng Việt (`lang/vi.json`), 80+ test.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Yêu cầu
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+PHP 8.3+, Composer, Node 20+, **pnpm** (không dùng npm), Laragon hoặc môi trường tương đương.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## Bắt đầu nhanh
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+git clone https://github.com/quanganhbn168/admin-template.git ten-du-an
+cd ten-du-an
+composer setup                 # .env, key, migrate, storage:link, pnpm install, pnpm build
+php artisan admin:create       # tạo super admin đầu tiên (hỏi tên, email, mật khẩu)
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Mở `https://ten-du-an.test` (Laragon tạo tên miền khi bạn Reload) hoặc chạy `composer dev`.
 
-## Contributing
+> Mật khẩu **không** nằm trong `.env` hay seeder. Tài khoản đầu tiên luôn được tạo bằng `php artisan admin:create`.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Tạo dự án mới từ template
 
-## Code of Conduct
+1. Trên GitHub: **Settings → General → bật "Template repository"** (làm một lần). Sau đó mỗi dự án mới: **Use this template → Create a new repository**.
+2. Clone về, rồi sửa:
+   - `.env`: `APP_NAME`, `APP_URL`, kết nối database, `MAIL_*`.
+   - `composer.json` và `package.json`: trường `name`.
+3. Chạy `composer setup` và `php artisan admin:create` như trên.
+4. Gỡ bản xem thử Tabler cho nhẹ: `php artisan template:strip-preview` rồi `pnpm build`.
+5. Thay `README.md` này bằng mô tả dự án của bạn.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Cấu hình giao diện (`.env`, xem `config/ui.php`)
 
-## Security Vulnerabilities
+| Biến | Giá trị |
+|---|---|
+| `UI_LAYOUT` | `vertical` · `horizontal` · `condensed` |
+| `UI_WIDTH` | `default` · `boxed` · `fluid` |
+| `UI_SIDEBAR` | `default` · `folded` · `folded-hover` (chỉ layout dọc) |
+| `UI_SIDEBAR_STYLE` | `default` · `end` · `transparent` (chỉ layout dọc) |
+| `UI_NAVBAR_STICKY` | `true` / `false` |
+| `UI_NAVBAR_STYLE` | `default` · `floating` |
+| `UI_PRIMARY` | `blue`, `azure`, `indigo`, `purple`, `pink`, `red`, `orange`, `yellow`, `lime`, `green`, `teal`, `cyan` |
+| `UI_BASE` / `UI_FONT` / `UI_RADIUS` | màu nền, font, độ bo góc |
+| `UI_PREVIEW` | `true`/`false`: bật bản xem thử `/preview` (chỉ môi trường local) |
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Giao diện luôn ở chế độ sáng. Menu nằm ở `config/menu.php` (một nguồn cho cả ba layout, hỗ trợ menu con, `can` để phân quyền).
 
-## License
+## Làm việc với template
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+**Thêm một trang quản trị mới** (ví dụ "Sản phẩm"):
+
+1. Controller trong `app/Http/Controllers/Admin/`, route trong nhóm `admin` ở `routes/web.php`.
+2. Thêm một dòng vào `config/menu.php`.
+3. View dùng layout và component:
+
+```blade
+<x-layouts.app :title="__('Products')">
+    <x-card>
+        <x-table.toolbar :state="$table" />
+        <x-table>
+            <x-slot:head><x-table.th column="name" :state="$table">{{ __('Name') }}</x-table.th></x-slot:head>
+            @foreach ($products as $p)<tr><td>{{ $p->name }}</td></tr>@endforeach
+        </x-table>
+        <x-table.footer :paginator="$products" />
+    </x-card>
+</x-layouts.app>
+```
+
+```php
+$table = DataTable::make(Product::query())->search(['name'])->sortable(['name', 'created_at'], default: 'name');
+return view('admin.products.index', ['products' => $table->paginate(), 'table' => $table->state()]);
+```
+
+**Component có sẵn**: mở `/admin/components` (và `/forms`, `/cards`, `/advanced`) khi chạy `APP_ENV=local`. Mỗi trang là danh mục kèm cách dùng. Component nằm ở `resources/views/components/`.
+
+**Tiếng Việt**: viết `__('English text')` trong view, thêm bản dịch vào `lang/vi.json`.
+
+**HTML từ trình soạn thảo**: luôn làm sạch bằng `App\Support\Html::clean()` trước khi lưu và hiển thị.
+
+**Tệp tải lên**: `POST /admin/uploads` lưu vào `storage/app/public/uploads` (cần `php artisan storage:link`, `composer setup` đã làm).
+
+## Cấu trúc
+
+```
+app/Support/        DataTable, Html (làm sạch HTML), Menu, Ui (cấu hình giao diện)
+config/ui.php       giao diện        config/menu.php   menu điều hướng
+resources/views/
+  components/       layout, form, widget, bảng, biểu đồ...   admin/  auth/  errors/
+  preview/          bản xem thử Tabler (tùy chọn)
+resources/js/       app.js (+ charts.js, map.js nạp khi cần)
+scripts/            sync-tabler-assets.mjs: chép thư viện Tabler vào public/tabler
+```
+
+## Kiểm thử
+
+```bash
+php artisan test
+```
+
+## Triển khai (checklist)
+
+- `APP_ENV=production`, `APP_DEBUG=false`, đúng `APP_URL`. Khi đó trang xem thử và catalog bị tắt, trang lỗi đẹp mới hiện.
+- Database thật (MySQL), `MAIL_*` thật (quên mật khẩu cần gửi email).
+- `composer install --no-dev --optimize-autoloader`, `pnpm install && pnpm build`, `php artisan migrate --force`, `php artisan storage:link`.
+- `php artisan config:cache route:cache view:cache`.
+- Tạo super admin: `php artisan admin:create`.
+- Đặt `UI_PREVIEW=false` hoặc gỡ hẳn bằng `php artisan template:strip-preview`.
+
+## Bản xem thử Tabler
+
+144 trang demo gốc của Tabler chuyển sang Blade, mở tại `/preview` (chỉ local). Ảnh demo (khoảng 30 MB) tải một lần bằng `pnpm assets:preview`. Dự án thật không cần, gỡ bằng `php artisan template:strip-preview`.
+
+## Giấy phép và ghi công
+
+Mã của template: tự do dùng cho dự án của bạn. Thư viện bên thứ ba đều theo giấy phép MIT: [Tabler](https://github.com/tabler/tabler) (kèm hình minh họa và biểu tượng), HugeRTE, ApexCharts, FullCalendar, Dropzone, TomSelect, noUiSlider. Bản dịch giao diện trình soạn thảo lấy từ gói ngôn ngữ cộng đồng của TinyMCE 6 (`resources/vendor/hugerte-langs`). Không dùng phần trả phí nào của Tabler.

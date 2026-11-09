@@ -1,3 +1,4 @@
+import fs from 'node:fs';
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import { bunny } from 'laravel-vite-plugin/fonts';
@@ -5,7 +6,8 @@ import { bunny } from 'laravel-vite-plugin/fonts';
 export default defineConfig({
     plugins: [
         laravel({
-            input: ['resources/css/app.css', 'resources/js/app.js', 'resources/css/preview.css'],
+            // preview.css exists only while the Tabler preview gallery is installed (see php artisan template:strip-preview)
+            input: ['resources/css/app.css', 'resources/js/app.js', ...(fs.existsSync('resources/css/preview.css') ? ['resources/css/preview.css'] : [])],
             refresh: true,
             fonts: [
                 bunny('Inter', {

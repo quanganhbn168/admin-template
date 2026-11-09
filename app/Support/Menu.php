@@ -2,6 +2,8 @@
 
 namespace App\Support;
 
+use Illuminate\Support\Facades\Route;
+
 class Menu
 {
     /**
@@ -21,6 +23,11 @@ class Menu
     private static function resolve(array $item): ?array
     {
         if (($item['local'] ?? false) && ! app()->isLocal()) {
+            return null;
+        }
+
+        // e.g. the preview gallery was removed: hide its menu item instead of failing
+        if (isset($item['route']) && ! Route::has($item['route'])) {
             return null;
         }
 

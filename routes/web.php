@@ -42,15 +42,10 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::resource('users', UserController::class)->except('show')->middleware('can:manage-users');
 });
 
-// Full Tabler preview gallery (146 demo pages), local only. Run `pnpm assets:preview` once for demo images.
-Route::get('/preview/{page?}', function (string $page = 'index') {
-    abort_unless(app()->isLocal(), 404);
-
-    $view = 'preview.pages.' . str_replace('/', '.', $page);
-    abort_unless(view()->exists($view), 404);
-
-    return view($view);
-})->where('page', '[A-Za-z0-9\-\/]+')->name('preview');
+// Full Tabler preview gallery (146 demo pages), local only. Optional: `php artisan template:strip-preview` deletes it.
+if (config('ui.preview') && file_exists(__DIR__ . '/preview.php')) {
+    require __DIR__ . '/preview.php';
+}
 
 // Form elements catalog (same rules as the component catalog below).
 Route::get('/admin/components/forms', function () {

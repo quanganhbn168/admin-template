@@ -14,6 +14,7 @@ class PreviewTest extends TestCase
 
     public function test_every_preview_page_renders(): void
     {
+        $this->skipIfPreviewRemoved();
         $this->app->detectEnvironment(fn () => 'local');
 
         $base = resource_path('views/preview/pages');
@@ -31,8 +32,16 @@ class PreviewTest extends TestCase
 
     public function test_unknown_preview_page_is_404(): void
     {
+        $this->skipIfPreviewRemoved();
         $this->app->detectEnvironment(fn () => 'local');
 
         $this->get('/preview/does-not-exist')->assertNotFound();
+    }
+
+    private function skipIfPreviewRemoved(): void
+    {
+        if (! is_dir(resource_path('views/preview'))) {
+            $this->markTestSkipped('The preview gallery was removed (template:strip-preview).');
+        }
     }
 }

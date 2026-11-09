@@ -7,6 +7,9 @@
  */
 return [
 
+    // Mount the Tabler preview gallery at /preview (local environment only, and only if it is still installed)
+    'preview' => env('UI_PREVIEW', true),
+
     // Menu structure: vertical (sidebar) | horizontal (top bar + menu row) | condensed (single top bar)
     'layout' => env('UI_LAYOUT', 'vertical'),
 
