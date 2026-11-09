@@ -25,3 +25,8 @@ document.querySelectorAll('.toast[data-auto-show]').forEach((el) => Toast.getOrC
 if (document.querySelector('[data-chart]')) {
     import('./charts.js');
 }
+
+// <x-map> renders [data-vector-map]: same idea for the world map.
+if (document.querySelector('[data-vector-map]')) {
+    import('./map.js');
+}

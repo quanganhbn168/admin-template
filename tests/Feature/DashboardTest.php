@@ -16,7 +16,7 @@ class DashboardTest extends TestCase
     {
         $this->actingAs(User::factory()->create());
 
-        $html = $this->get('/admin')->assertOk()->assertSee('timeline-event', false)->getContent();
+        $html = $this->get('/admin')->assertOk()->assertSee('timeline-event', false)->assertSee('data-vector-map', false)->assertSee('progress-separated', false)->assertSee('card-gradient', false)->getContent();
 
         $doc = new DOMDocument;
         @$doc->loadHTML('<?xml encoding="utf-8" ?>' . $html);

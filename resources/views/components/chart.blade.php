@@ -3,13 +3,14 @@
      series: line/area/bar => [['name' => 'A', 'data' => [..]], ...]; donut => [10, 20, 30]; radialBar => [58]
      categories: x axis labels (or donut slice labels). sparkline: no axes/grid, for use inside widgets.
      colors: CSS colors or Tabler variables, e.g. 'var(--tblr-primary)'. options: raw ApexCharts options merged on top. --}}
-@props(['type' => 'line', 'series' => [], 'categories' => [], 'height' => 240, 'sparkline' => false, 'colors' => ['var(--tblr-primary)', 'var(--tblr-gray-400)'], 'stacked' => false, 'options' => [], 'label' => null])
+@props(['type' => 'line', 'series' => [], 'categories' => [], 'height' => 240, 'sparkline' => false, 'colors' => ['var(--tblr-primary)', 'var(--tblr-gray-400)'], 'stacked' => false, 'legend' => null, 'options' => [], 'label' => null])
+{{-- gauge = radialBar drawn as a 270° dial with the series name inside; legend: top | bottom | top-right | ... --}}
 @php
-    $circular = in_array($type, ['donut', 'radialBar']);
+    $circular = in_array($type, ['donut', 'radialBar', 'gauge']);
 
     $config = [
         'chart' => array_filter([
-            'type' => $type,
+            'type' => $type === 'gauge' ? 'radialBar' : $type,
             'height' => $height,
             'sparkline' => $sparkline ? ['enabled' => true] : null,
             'stacked' => $stacked ?: null,
@@ -41,6 +42,24 @@
     if ($type === 'radialBar') {
         $config['plotOptions'] = ['radialBar' => ['hollow' => ['size' => '62%'], 'dataLabels' => ['name' => ['show' => false], 'value' => ['fontSize' => '28px', 'fontWeight' => 600, 'offsetY' => 10]]]];
         $config['stroke'] = ['lineCap' => 'round'];
+    }
+
+    if ($type === 'gauge') {
+        $config['plotOptions'] = ['radialBar' => [
+            'startAngle' => -135,
+            'endAngle' => 135,
+            'hollow' => ['size' => '66%'],
+            'dataLabels' => [
+                'name' => ['show' => true, 'fontSize' => '14px', 'color' => 'var(--tblr-secondary)', 'offsetY' => -8],
+                'value' => ['fontSize' => '28px', 'fontWeight' => 600, 'offsetY' => 4],
+            ],
+        ]];
+        $config['stroke'] = ['lineCap' => 'round'];
+    }
+
+    if ($legend) {
+        [$position, $align] = array_pad(explode('-', $legend), 2, 'center');
+        $config['legend'] = ['show' => true, 'position' => $position, 'horizontalAlign' => $align, 'markers' => ['shape' => 'circle', 'size' => 5, 'width' => 10, 'height' => 10, 'radius' => 100], 'itemMargin' => ['horizontal' => 8, 'vertical' => 4]];
     }
 
     $config = array_replace_recursive($config, $options);

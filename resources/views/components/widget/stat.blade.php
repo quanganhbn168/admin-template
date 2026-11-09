@@ -6,18 +6,7 @@
     <div class="card-body">
         <div class="d-flex align-items-center">
             <div class="subheader">{{ $label }}</div>
-            @if ($periods)
-                <div class="ms-auto lh-1">
-                    <div class="dropdown">
-                        <button type="button" class="dropdown-toggle text-secondary border-0 bg-transparent p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ $periods[0] }}</button>
-                        <div class="dropdown-menu dropdown-menu-end">
-                            @foreach ($periods as $period)
-                                <button type="button" class="dropdown-item {{ $loop->first ? 'active' : '' }}">{{ $period }}</button>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-            @endif
+            @if ($periods)<div class="ms-auto lh-1"><x-widget.periods :periods="$periods" /></div>@endif
         </div>
         <div class="d-flex align-items-baseline">
             <div class="h1 mb-0 me-2">{{ $value }}</div>

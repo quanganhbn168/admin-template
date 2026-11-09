@@ -22,6 +22,19 @@ class DashboardController extends Controller
             'clients' => [12, 17, 14, 21, 18, 25, 19, 28, 23, 27],
             'subscriptions' => [14, 20, 17, 28, 22, 30, 26],
             'sources' => ['Tìm kiếm' => 44, 'Trực tiếp' => 31, 'Mạng xã hội' => 18, 'Giới thiệu' => 7],
+            // Stacked traffic per day: web / social / other.
+            'traffic' => [
+                'web' => array_map(fn (int $i) => (int) round(4 + 38 * ($i / 29) ** 2 + 6 * abs(sin($i * 1.7))), range(0, 29)),
+                'social' => array_map(fn (int $i) => (int) round(3 + 14 * ($i / 29) ** 1.5 + 4 * abs(cos($i * 1.3))), range(0, 29)),
+                'other' => array_map(fn (int $i) => (int) round(2 + 6 * abs(sin($i * 0.9)) + 3 * ($i / 29)), range(0, 29)),
+            ],
+            'countries' => ['VN' => 9, 'US' => 8, 'JP' => 6, 'KR' => 6, 'SG' => 5, 'TH' => 5, 'AU' => 5, 'DE' => 4, 'FR' => 4, 'GB' => 4, 'CA' => 3, 'IN' => 3, 'BR' => 2, 'ID' => 3, 'CN' => 4, 'RU' => 2, 'ZA' => 1, 'EG' => 1],
+            'storage' => [
+                ['label' => 'Regular', 'value' => 44, 'color' => 'primary', 'text' => '3520MB'],
+                ['label' => 'System', 'value' => 19, 'color' => 'info', 'text' => '1520MB'],
+                ['label' => 'Shared', 'value' => 9, 'color' => 'success', 'text' => '720MB'],
+                ['label' => 'Free', 'value' => 28, 'color' => 'muted', 'text' => '2240MB'],
+            ],
             'pages' => [
                 ['/admin', 4896, 3654, 82],
                 ['/admin/users', 3652, 3215, 76],
