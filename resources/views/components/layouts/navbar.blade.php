@@ -10,7 +10,6 @@
             <a href="{{ route('admin.dashboard') }}" class="fs-2 fw-bold text-decoration-none">{{ config('app.name') }}</a>
         </div>
         <div class="navbar-nav flex-row order-md-last">
-            <x-theme-toggle />
             <x-layouts.user-menu />
         </div>
         @if ($condensed)

@@ -39,22 +39,63 @@ document.querySelectorAll('[data-slider]').forEach((el) => {
 });
 
 // <x-form.editor> -> HugeRTE rich text editor (library loaded by <x-lib name="editor">).
+// Vietnamese UI strings come from public/tabler/libs/hugerte/langs/vi.js (see resources/vendor/hugerte-langs).
 document.querySelectorAll('textarea[data-editor]').forEach((el) => {
     if (!window.hugeRTE) return;
+
+    const csrf = document.querySelector('meta[name="csrf-token"]')?.content ?? '';
+    const uploadUrl = el.dataset.uploadUrl;
+    const alignable = 'p,h1,h2,h3,h4,h5,h6,div,td,th,li,ul,ol,table';
 
     const options = {
         selector: `#${el.id}`,
         height: Number(el.dataset.height) || 300,
         menubar: false,
         statusbar: false,
+        toolbar_mode: 'wrap',
+        branding: false,
+        promotion: false,
         plugins: ['advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen', 'table', 'wordcount'],
-        toolbar: 'undo redo | blocks | bold italic underline | alignleft aligncenter alignright | bullist numlist outdent indent | link table | code fullscreen',
-        content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; }',
+        toolbar: 'undo redo | blocks | bold italic underline | alignleft aligncenter alignright | bullist numlist outdent indent | link image table | code fullscreen',
+        content_style:
+            'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; } ' +
+            'img { max-width: 100%; height: auto; } table { border-collapse: collapse; width: 100%; } td, th { border: 1px solid #ccd; padding: 4px 8px; }',
+        // Keep the HTML clean: alignment and tables use Bootstrap/Tabler classes, never style="" attributes.
+        formats: {
+            alignleft: { selector: alignable, classes: 'text-start' },
+            aligncenter: { selector: alignable, classes: 'text-center' },
+            alignright: { selector: alignable, classes: 'text-end' },
+        },
+        table_default_attributes: { class: 'table table-bordered' },
+        table_default_styles: {},
+        convert_urls: false,
+        relative_urls: false,
     };
 
-    if (document.documentElement.getAttribute('data-bs-theme') === 'dark') {
-        options.skin = 'oxide-dark';
-        options.content_css = 'dark';
+    // Vietnamese interface (English is the built-in default).
+    if (el.dataset.language === 'vi') {
+        options.language = 'vi';
+        options.language_url = '/tabler/libs/hugerte/langs/vi.js';
+    }
+
+    // Insert images from the computer: upload to the server, then use the returned URL.
+    if (uploadUrl) {
+        options.automatic_uploads = true;
+        options.paste_data_images = true;
+        options.images_file_types = 'jpg,jpeg,png,gif,webp';
+        options.images_upload_handler = (blobInfo) =>
+            new Promise((resolve, reject) => {
+                const data = new FormData();
+                data.append('file', blobInfo.blob(), blobInfo.filename());
+
+                fetch(uploadUrl, { method: 'POST', body: data, headers: { 'X-CSRF-TOKEN': csrf, Accept: 'application/json' }, credentials: 'same-origin' })
+                    .then(async (response) => {
+                        const json = await response.json().catch(() => ({}));
+                        if (response.ok && json.url) return resolve(json.url);
+                        reject({ message: json.errors?.file?.[0] ?? json.message ?? `HTTP ${response.status}`, remove: true });
+                    })
+                    .catch((error) => reject({ message: error.message, remove: true }));
+            });
     }
 
     window.hugeRTE.init(options);

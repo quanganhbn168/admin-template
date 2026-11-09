@@ -24,7 +24,8 @@ class UploadController extends Controller
         return response()->json([
             'name' => $file->getClientOriginalName(),
             'path' => $path,
-            'url' => asset('storage/' . $path),
+            // site-relative so content keeps working if the domain changes
+            'url' => '/storage/' . $path,
             'size' => $file->getSize(),
         ], 201);
     }

@@ -24,6 +24,9 @@ copy('img', 'img')
 copy('js', 'js')
 copy('css/tabler.rtl.min.css', 'css/tabler.rtl.min.css')
 
+// UI language packs for libraries that ship without one (HugeRTE editor).
+fs.cpSync(path.join(root, 'resources/vendor/hugerte-langs'), path.join(out, 'libs/hugerte/langs'), { recursive: true, force: true })
+
 if (process.argv.includes('--preview')) {
     const list = fs.readFileSync(path.join(root, 'scripts/preview-static.txt'), 'utf8').split('\n').map((s) => s.trim()).filter(Boolean)
     const todo = list.filter((f) => !fs.existsSync(path.join(out, f)))

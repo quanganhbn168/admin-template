@@ -15,6 +15,10 @@
                     <div class="col-md-6">
                         <x-form.select name="timezone" :label="__('Timezone')" :options="$timezones" :value="$values['timezone']" search required />
                     </div>
+                    <div class="col-12">
+                        <x-form.editor name="footer_note" :label="__('Footer note')" :value="$values['footer_note']" :height="200"
+                            :hint="__('Shown above the copyright line on every page.')" />
+                    </div>
                 </div>
             </div>
             <x-slot:footer>

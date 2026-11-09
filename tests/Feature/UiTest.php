@@ -15,7 +15,7 @@ class UiTest extends TestCase
 
     public function test_defaults_produce_no_attributes_except_the_vertical_position(): void
     {
-        $this->assertSame(['navbar-position' => 'vertical'], array_filter(Ui::attributes()));
+        $this->assertSame(['theme' => 'light', 'navbar-position' => 'vertical'], array_filter(Ui::attributes()));
     }
 
     public function test_config_maps_to_tabler_attributes(): void
@@ -27,7 +27,7 @@ class UiTest extends TestCase
         ]);
 
         $this->assertSame([
-            'navbar-position' => 'vertical', 'layout' => 'boxed', 'sidebar' => 'folded', 'navbar' => 'sticky',
+            'theme' => 'light', 'navbar-position' => 'vertical', 'layout' => 'boxed', 'sidebar' => 'folded', 'navbar' => 'sticky',
             'navbar-style' => 'floating',
             'theme-primary' => 'green', 'theme-base' => 'slate', 'theme-font' => 'serif', 'theme-radius' => '2',
         ], Ui::attributes());

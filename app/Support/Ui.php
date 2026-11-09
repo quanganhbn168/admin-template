@@ -20,6 +20,8 @@ class Ui
         $theme = config('ui.theme');
 
         return [
+            // The admin is light only; ignore the visitor's OS dark mode.
+            'theme' => 'light',
             'navbar-position' => $vertical ? 'vertical' : null,
             'layout' => self::pick(config('ui.width'), ['boxed', 'fluid']),
             'sidebar' => $vertical ? self::pick(config('ui.sidebar'), ['folded', 'folded-hover']) : null,
