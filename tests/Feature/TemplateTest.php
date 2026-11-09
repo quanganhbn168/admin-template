@@ -48,6 +48,8 @@ class TemplateTest extends TestCase
 
     public function test_strip_preview_asks_before_deleting(): void
     {
+        $this->skipIfPreviewRemoved();
+
         $this->artisan('template:strip-preview')->expectsConfirmation('Delete these files? (they stay in git history)', 'no')->assertFailed();
 
         $this->assertDirectoryExists(resource_path('views/components/preview'));
@@ -69,10 +71,20 @@ class TemplateTest extends TestCase
         $this->assertNotContains('Group', $labels); // a dropdown with no visible children disappears
     }
 
-    public function test_preview_can_be_switched_off_in_config(): void
+    public function test_preview_flag_controls_whether_the_gallery_is_mounted(): void
     {
+        $this->skipIfPreviewRemoved();
+
+        // on by default; the route exists because config('ui.preview') is true and routes/preview.php is there
         $this->assertTrue(config('ui.preview'));
-        $this->assertFileExists(base_path('routes/preview.php'));
+        $this->assertTrue(\Illuminate\Support\Facades\Route::has('preview'));
+    }
+
+    private function skipIfPreviewRemoved(): void
+    {
+        if (! is_dir(resource_path('views/preview'))) {
+            $this->markTestSkipped('The preview gallery was removed (template:strip-preview).');
+        }
     }
 
     public function test_env_example_documents_the_options_a_clone_needs(): void
