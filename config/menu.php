@@ -17,6 +17,7 @@ return [
         'local' => true,
         'children' => [
             ['label' => 'Components', 'route' => 'admin.components'],
+            ['label' => 'Form elements', 'route' => 'admin.components.forms'],
             ['label' => 'Tabler preview', 'route' => 'preview'],
         ],
     ],

@@ -28,10 +28,10 @@
             'x-map' => '<x-map :values="[\'VN\' => 9, \'US\' => 8]" />   (bản đồ thế giới, mã quốc gia ISO)',
             'x-progress.stacked' => '<x-progress.stacked :segments="[[label, value, color, text]]" />   (thanh dung lượng nhiều đoạn + chú thích)',
             'x-trend' => '<x-trend :value="2" />  (xanh ↑, đỏ ↓, xám khi 0)',
-            'Layout' => 'UI_LAYOUT trong .env: vertical | horizontal | condensed  ·  menu ở config/menu.php',
+            'Layout' => 'UI_LAYOUT vertical|horizontal|condensed · UI_WIDTH boxed|fluid · UI_SIDEBAR folded · UI_SIDEBAR_STYLE end|transparent · UI_NAVBAR_STICKY · UI_NAVBAR_STYLE floating · UI_PRIMARY, UI_BASE, UI_FONT, UI_RADIUS  (config/ui.php)',
             'x-social-button' => '<x-social-button provider="github" />   (facebook, github, google, instagram, linkedin, pinterest, twitter, x, youtube)',
             'Pagination' => '{{ $paginator->links() }}  (đã có kiểu Bootstrap/Tabler sẵn)',
-            'x-form.*' => 'input, password, select, textarea, checkbox (switch)',
+            'x-form.*' => 'input (icon, prefix, suffix, mask), password, select (search, multiple), textarea, checkbox/switch, radios, selectgroup, date, number, slider, otp, file  ·  xem trang Form elements',
             'x-stat-card / x-nav-item / x-flash / x-role-badge / x-breadcrumb' => 'xem file trong resources/views/components',
         ];
     @endphp

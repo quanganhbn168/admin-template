@@ -32,6 +32,13 @@ Route::get('/preview/{page?}', function (string $page = 'index') {
     return view($view);
 })->where('page', '[A-Za-z0-9\-\/]+')->name('preview');
 
+// Form elements catalog (same rules as the component catalog below).
+Route::get('/admin/components/forms', function () {
+    abort_unless(app()->isLocal(), 404);
+
+    return view('admin.components-forms');
+})->name('admin.components.forms');
+
 // UI catalog for developers: no login needed, but only in the local environment.
 Route::get('/admin/components', function () {
     abort_unless(app()->isLocal(), 404);

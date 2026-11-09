@@ -21,6 +21,23 @@ document.addEventListener('click', (event) => {
 // <x-toast> renders with data-auto-show: display it as soon as the page is ready.
 document.querySelectorAll('.toast[data-auto-show]').forEach((el) => Toast.getOrCreateInstance(el).show());
 
+// <x-form.select search> -> TomSelect (library loaded by <x-lib name="select">).
+document.querySelectorAll('select[data-tom-select]').forEach((el) => {
+    window.TomSelect && new window.TomSelect(el, { copyClassesToDropdown: false, dropdownParent: 'body', controlInput: '<input>' });
+});
+
+// <x-form.slider> -> noUiSlider (library loaded by <x-lib name="slider">); value goes into a hidden input.
+document.querySelectorAll('[data-slider]').forEach((el) => {
+    if (!window.noUiSlider) return;
+    const { min, max, step, start, target } = el.dataset;
+    window.noUiSlider.create(el, { start: Number(start), step: Number(step), connect: [true, false], range: { min: Number(min), max: Number(max) } });
+    el.noUiSlider.on('update', (values) => {
+        const value = Math.round(values[0] * 100) / 100;
+        document.getElementById(target).value = value;
+        document.querySelector(`[data-slider-output="${target}"]`).textContent = value;
+    });
+});
+
 // <x-chart> renders [data-chart]: load ApexCharts only on pages that need it.
 if (document.querySelector('[data-chart]')) {
     import('./charts.js');

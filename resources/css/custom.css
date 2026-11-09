@@ -2,3 +2,10 @@
 :root {
     --tblr-font-sans-serif: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
 }
+
+/* Folded sidebar: show only the first letter of the brand until it expands. */
+.brand-short { display: none; }
+html[data-bs-sidebar='folded'] .navbar-vertical .brand-full,
+html[data-bs-sidebar='folded-hover'] .navbar-vertical:not(:hover) .brand-full { display: none; }
+html[data-bs-sidebar='folded'] .navbar-vertical .brand-short,
+html[data-bs-sidebar='folded-hover'] .navbar-vertical:not(:hover) .brand-short { display: inline; }
