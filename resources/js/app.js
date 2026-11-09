@@ -1,4 +1,4 @@
-import '@tabler/core/dist/js/tabler.min.js';
+import { Toast } from '@tabler/core';
 
 // Show / hide password: any <a data-toggle-password> inside an .input-group.
 // Labels come from data-show-label / data-hide-label so they stay translatable.
@@ -17,3 +17,6 @@ document.addEventListener('click', (event) => {
     toggle.setAttribute('aria-label', label);
     toggle.querySelector('i').className = `ti ${show ? 'ti-eye-off' : 'ti-eye'} fs-2`;
 });
+
+// <x-toast> renders with data-auto-show: display it as soon as the page is ready.
+document.querySelectorAll('.toast[data-auto-show]').forEach((el) => Toast.getOrCreateInstance(el).show());

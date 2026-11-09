@@ -14,6 +14,15 @@
             'x-empty' => '<x-empty title="..." text="..."> nút hành động </x-empty>',
             'x-modal' => '<x-modal id="m1" title="..."> ... <x-slot:footer>..</x-slot:footer> </x-modal>   (mở bằng data-bs-toggle="modal" data-bs-target="#m1")',
             'x-delete-button' => '<x-delete-button :action="route(...)" />',
+            'x-tabs / x-tabs.pane' => '<x-tabs :items="[\'a\' => \'A\']" active="a"> <x-tabs.pane id="a" active>..</x-tabs.pane> </x-tabs>',
+            'x-accordion' => '<x-accordion> <x-accordion.item title="..." open>..</x-accordion.item> </x-accordion>',
+            'x-dropdown' => '<x-dropdown label="..."> <x-dropdown.item href icon danger>..</x-dropdown.item> <x-dropdown.divider /> </x-dropdown>',
+            'x-offcanvas' => '<x-offcanvas id="p1" title="..." placement="end">..</x-offcanvas>   (mở: data-bs-toggle="offcanvas")',
+            'x-progress / x-steps / x-placeholder' => '<x-progress :value="65" />, <x-steps :items="[..]" :current="2" />, <x-placeholder :lines="3" />',
+            'x-tooltip / x-toast / x-ribbon' => '<x-tooltip text="..">..</x-tooltip>, <x-toast title="..">..</x-toast> (tự hiện), <x-ribbon>New</x-ribbon>',
+            'x-carousel / x-timeline' => '<x-carousel :images="[urls]" />, <x-timeline :items="[[title,time,text]]" />',
+            'x-social-button' => '<x-social-button provider="github" />   (facebook, github, google, instagram, linkedin, pinterest, twitter, x, youtube)',
+            'Pagination' => '{{ $paginator->links() }}  (đã có kiểu Bootstrap/Tabler sẵn)',
             'x-form.*' => 'input, password, select, textarea, checkbox (switch)',
             'x-stat-card / x-nav-item / x-flash / x-role-badge / x-breadcrumb' => 'xem file trong resources/views/components',
         ];
@@ -79,6 +88,56 @@
             </x-card>
         </div>
 
+        <div class="col-md-6">
+            <x-tabs :items="['t1' => 'Tab 1', 't2' => 'Tab 2']" active="t1">
+                <x-tabs.pane id="t1" active>{{ __('Tab content') }} 1</x-tabs.pane>
+                <x-tabs.pane id="t2">{{ __('Tab content') }} 2</x-tabs.pane>
+            </x-tabs>
+        </div>
+
+        <div class="col-md-6">
+            <x-accordion>
+                <x-accordion.item title="Accordion 1" open>{{ __('Modal content goes here.') }}</x-accordion.item>
+                <x-accordion.item title="Accordion 2">{{ __('Nothing to show here.') }}</x-accordion.item>
+            </x-accordion>
+        </div>
+
+        <div class="col-md-6">
+            <x-card :title="__('Interface')">
+                <div class="card-body">
+                    <div class="mb-3 d-flex flex-wrap gap-2 align-items-center">
+                        <x-dropdown :label="__('Actions')" icon="ti-dots">
+                            <x-dropdown.item href="#" icon="ti-pencil">{{ __('Edit') }}</x-dropdown.item>
+                            <x-dropdown.divider />
+                            <x-dropdown.item href="#" icon="ti-trash" danger>{{ __('Delete') }}</x-dropdown.item>
+                        </x-dropdown>
+                        <x-button variant="secondary" data-bs-toggle="offcanvas" data-bs-target="#demo-offcanvas">{{ __('Open panel') }}</x-button>
+                        <x-tooltip :text="__('Tooltip text')"><x-badge color="purple">Tooltip</x-badge></x-tooltip>
+                    </div>
+                    <x-progress :value="65" class="mb-3" />
+                    <x-steps :items="['Info', 'Address', 'Done']" :current="2" class="mb-3" />
+                    <x-placeholder :lines="3" />
+                </div>
+            </x-card>
+        </div>
+
+        <div class="col-md-6">
+            <x-card :title="__('Social & timeline')" class="position-relative">
+                <x-ribbon>New</x-ribbon>
+                <div class="card-body">
+                    <div class="d-flex flex-wrap gap-2 mb-4">
+                        @foreach (['facebook', 'github', 'google', 'x', 'linkedin'] as $provider)
+                            <x-social-button :provider="$provider" />
+                        @endforeach
+                    </div>
+                    <x-timeline :items="[
+                        ['title' => 'Tạo tài khoản', 'time' => '09:00', 'text' => 'Super admin tạo tài khoản.'],
+                        ['title' => 'Đăng nhập lần đầu', 'time' => '09:05'],
+                    ]" />
+                </div>
+            </x-card>
+        </div>
+
         <div class="col-12">
             <x-card :title="__('Usage')">
                 <x-table>
@@ -90,6 +149,9 @@
             </x-card>
         </div>
     </div>
+
+    <x-offcanvas id="demo-offcanvas" :title="__('Panel')">{{ __('Modal content goes here.') }}</x-offcanvas>
+    <x-toast :title="config('app.name')">{{ __('Component catalog loaded.') }}</x-toast>
 
     <x-modal id="demo-modal" :title="__('Modal')">
         {{ __('Modal content goes here.') }}
