@@ -9,7 +9,7 @@
             'x-badge' => '<x-badge color="green">Hoạt động</x-badge>',
             'x-alert' => '<x-alert type="warning" title="Chú ý" dismissible>Nội dung</x-alert>',
             'x-avatar' => '<x-avatar name="Nguyen" size="md" color="blue" />',
-            'x-card' => '<x-card :title="..."> ...  <x-slot:footer>...</x-slot:footer> </x-card>',
+            'x-card' => '<x-card :title="..."> ...  <x-slot:footer>...</x-slot:footer> </x-card>  ·  gradient: <x-card gradient="sun" direction="end" animated>  (34 màu: primary, success, red, ocean, rainbow...)',
             'x-table' => '<x-table><x-slot:head><th>..</th></x-slot:head> <tr>..</tr> </x-table>',
             'x-empty' => '<x-empty title="..." text="..."> nút hành động </x-empty>',
             'x-modal' => '<x-modal id="m1" title="..."> ... <x-slot:footer>..</x-slot:footer> </x-modal>   (mở bằng data-bs-toggle="modal" data-bs-target="#m1")',
@@ -32,6 +32,7 @@
             'x-form.editor' => '<x-form.editor name="content" label="Nội dung" :height="300" />   (HugeRTE; làm sạch HTML ở server)',
             'x-dropzone' => '<x-dropzone accepted="image/*,.pdf" :max-size="5" />   (POST /admin/uploads → storage/app/public/uploads; không đặt trong form khác)',
             'x-confetti' => '<x-confetti :count="300" colors="#f76707, #d63939">Chúc mừng</x-confetti>  ·  sau một thao tác: redirect()->with(\'celebrate\', true)',
+            'Card patterns' => 'x-widget.notice (xác nhận/thành công) · .pricing · .kpi · .promo · .weather · .profile · .delta  ·  xem trang Mẫu thẻ',
             'x-trend' => '<x-trend :value="2" />  (xanh ↑, đỏ ↓, xám khi 0)',
             'Layout' => 'UI_LAYOUT vertical|horizontal|condensed · UI_WIDTH boxed|fluid · UI_SIDEBAR folded · UI_SIDEBAR_STYLE end|transparent · UI_NAVBAR_STICKY · UI_NAVBAR_STYLE floating · UI_PRIMARY, UI_BASE, UI_FONT, UI_RADIUS  (config/ui.php)',
             'x-social-button' => '<x-social-button provider="github" />   (facebook, github, google, instagram, linkedin, pinterest, twitter, x, youtube)',
@@ -61,6 +62,27 @@
                         <x-badge color="red" :soft="false">Red</x-badge>
                         <x-avatar name="Nguyen" />
                         <x-avatar name="Tran" color="orange" size="lg" />
+                    </div>
+                </div>
+            </x-card>
+        </div>
+
+        <div class="col-12">
+            <x-card :title="__('Card gradients')">
+                <div class="card-body">
+                    <div class="row g-3">
+                        @foreach (['primary', 'success', 'red', 'orange', 'yellow', 'purple', 'pink', 'teal', 'sun', 'ocean', 'love', 'rainbow'] as $name)
+                            <div class="col-6 col-md-4 col-lg-2">
+                                <x-card :gradient="$name" :direction="$loop->index % 2 ? 'end' : 'start'" class="h-100">
+                                    <div class="card-body text-center py-4"><div class="fw-bold">{{ $name }}</div><div class="small opacity-75">{{ $loop->index % 2 ? 'end' : 'start' }}</div></div>
+                                </x-card>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="row g-3 mt-1">
+                        <div class="col-md-4"><x-card gradient><div class="card-body"><div class="fw-bold">gradient</div>{{ __('Default tint') }}</div></x-card></div>
+                        <div class="col-md-4"><x-card gradient="info" animated><div class="card-body"><div class="fw-bold">info + animated</div>{{ __('Slowly moving') }}</div></x-card></div>
+                        <div class="col-md-4"><x-card gradient="dark" direction="bottom"><div class="card-body"><div class="fw-bold">dark + bottom</div>{{ __('Dark gradient') }}</div></x-card></div>
                     </div>
                 </div>
             </x-card>

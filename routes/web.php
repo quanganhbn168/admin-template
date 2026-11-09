@@ -59,6 +59,13 @@ Route::get('/admin/components/forms', function () {
     return view('admin.components-forms');
 })->name('admin.components.forms');
 
+// Card patterns (notice, pricing, KPI, promo, weather, profile) on tinted gradient cards.
+Route::get('/admin/components/cards', function () {
+    abort_unless(app()->isLocal(), 404);
+
+    return view('admin.components-cards');
+})->name('admin.components.cards');
+
 // Calendar, rich text editor and uploader demo (same rules as the other catalogs).
 Route::get('/admin/components/advanced', function () {
     abort_unless(app()->isLocal(), 404);
