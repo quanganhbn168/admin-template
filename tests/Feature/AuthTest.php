@@ -99,8 +99,6 @@ class AuthTest extends TestCase
 
     public function test_component_catalog_renders_only_in_local(): void
     {
-        $this->actingAs(User::factory()->create());
-
         $this->get('/admin/components')->assertNotFound();
 
         $this->app->detectEnvironment(fn () => 'local');

@@ -25,3 +25,6 @@ _ide_helper.php
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Tabler assets copied/downloaded by scripts/sync-tabler-assets.mjs
+/public/tabler

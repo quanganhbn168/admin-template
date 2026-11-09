@@ -18,12 +18,22 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::view('/', 'admin.dashboard')->name('dashboard');
     Route::view('/settings', 'admin.page', ['title' => 'Settings'])->name('settings');
 
-    // UI catalog for developers: only available in the local environment.
-    Route::get('/components', function () {
-        abort_unless(app()->isLocal(), 404);
-
-        return view('admin.components');
-    })->name('components');
-
     Route::resource('users', UserController::class)->except('show')->middleware('can:manage-users');
 });
+
+// Full Tabler preview gallery (146 demo pages), local only. Run `pnpm assets:preview` once for demo images.
+Route::get('/preview/{page?}', function (string $page = 'index') {
+    abort_unless(app()->isLocal(), 404);
+
+    $view = 'preview.pages.' . str_replace('/', '.', $page);
+    abort_unless(view()->exists($view), 404);
+
+    return view($view);
+})->where('page', '[A-Za-z0-9\-\/]+')->name('preview');
+
+// UI catalog for developers: no login needed, but only in the local environment.
+Route::get('/admin/components', function () {
+    abort_unless(app()->isLocal(), 404);
+
+    return view('admin.components');
+})->name('admin.components');

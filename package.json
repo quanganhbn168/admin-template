@@ -3,8 +3,10 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "build": "vite build",
-        "dev": "vite"
+        "assets": "node scripts/sync-tabler-assets.mjs",
+        "assets:preview": "node scripts/sync-tabler-assets.mjs --preview",
+        "dev": "node scripts/sync-tabler-assets.mjs && vite",
+        "build": "node scripts/sync-tabler-assets.mjs && vite build"
     },
     "devDependencies": {
         "concurrently": "^10.0.3",
