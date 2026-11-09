@@ -1,0 +1,4 @@
+/* Project-level overrides for Tabler. Keep clone-specific styling here. */
+:root {
+    --tblr-font-sans-serif: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
