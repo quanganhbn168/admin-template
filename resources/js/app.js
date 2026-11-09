@@ -38,6 +38,68 @@ document.querySelectorAll('[data-slider]').forEach((el) => {
     });
 });
 
+// <x-form.editor> -> HugeRTE rich text editor (library loaded by <x-lib name="editor">).
+document.querySelectorAll('textarea[data-editor]').forEach((el) => {
+    if (!window.hugeRTE) return;
+
+    const options = {
+        selector: `#${el.id}`,
+        height: Number(el.dataset.height) || 300,
+        menubar: false,
+        statusbar: false,
+        plugins: ['advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen', 'table', 'wordcount'],
+        toolbar: 'undo redo | blocks | bold italic underline | alignleft aligncenter alignright | bullist numlist outdent indent | link table | code fullscreen',
+        content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; }',
+    };
+
+    if (document.documentElement.getAttribute('data-bs-theme') === 'dark') {
+        options.skin = 'oxide-dark';
+        options.content_css = 'dark';
+    }
+
+    window.hugeRTE.init(options);
+});
+
+// <x-calendar> -> FullCalendar (library loaded by <x-lib name="fullcalendar">).
+document.querySelectorAll('[data-calendar]').forEach((el) => {
+    if (!window.FullCalendar) return;
+
+    new window.FullCalendar.Calendar(el, {
+        initialView: el.dataset.view || 'dayGridMonth',
+        locale: document.documentElement.lang || 'en',
+        firstDay: 1,
+        height: 'auto',
+        headerToolbar: { left: 'prev,next today', center: 'title', right: 'dayGridMonth,timeGridWeek,listWeek' },
+        buttonText: { ...JSON.parse(el.dataset.buttons || '{}') },
+        events: JSON.parse(el.dataset.events || '[]'),
+    }).render();
+});
+
+// <x-dropzone> -> Dropzone uploader (library loaded by <x-lib name="dropzone">).
+if (window.Dropzone) {
+    window.Dropzone.autoDiscover = false;
+
+    document.querySelectorAll('form[data-dropzone]').forEach((el) => {
+        const dropzone = new window.Dropzone(el, {
+            url: el.dataset.url,
+            paramName: 'file',
+            maxFilesize: Number(el.dataset.maxSize) || 5,
+            acceptedFiles: el.dataset.accepted || null,
+            headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content ?? '', Accept: 'application/json' },
+            ...JSON.parse(el.dataset.dict || '{}'),
+        });
+
+        // Show the server's validation message instead of a bare status code.
+        dropzone.on('error', (file, response) => {
+            const message = typeof response === 'string' ? response : response?.errors?.file?.[0] ?? response?.message;
+            const target = file.previewElement?.querySelector('[data-dz-errormessage]');
+            if (message && target) target.textContent = message;
+        });
+
+        dropzone.on('success', (file, response) => el.dispatchEvent(new CustomEvent('dropzone:uploaded', { detail: response, bubbles: true })));
+    });
+}
+
 // <x-chart> renders [data-chart]: load ApexCharts only on pages that need it.
 if (document.querySelector('[data-chart]')) {
     import('./charts.js');

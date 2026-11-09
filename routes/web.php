@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\UploadController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
@@ -31,6 +32,8 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
 
+    Route::post('/uploads', [UploadController::class, 'store'])->name('uploads.store')->middleware('throttle:60,1');
+
     Route::middleware('can:manage-settings')->group(function () {
         Route::get('/settings', [SettingController::class, 'edit'])->name('settings');
         Route::put('/settings', [SettingController::class, 'update'])->name('settings.update');
@@ -55,6 +58,13 @@ Route::get('/admin/components/forms', function () {
 
     return view('admin.components-forms');
 })->name('admin.components.forms');
+
+// Calendar, rich text editor and uploader demo (same rules as the other catalogs).
+Route::get('/admin/components/advanced', function () {
+    abort_unless(app()->isLocal(), 404);
+
+    return view('admin.components-advanced');
+})->name('admin.components.advanced');
 
 // UI catalog for developers: no login needed, but only in the local environment.
 Route::get('/admin/components', function () {

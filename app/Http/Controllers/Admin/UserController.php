@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Support\DataTable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -13,9 +14,11 @@ class UserController extends Controller
 {
     public function index()
     {
-        return view('admin.users.index', [
-            'users' => User::orderByDesc('is_super_admin')->orderBy('name')->paginate(15),
-        ]);
+        $table = DataTable::make(User::query())
+            ->search(['name', 'email'])
+            ->sortable(['name', 'email', 'is_super_admin', 'created_at'], default: 'name');
+
+        return view('admin.users.index', ['users' => $table->paginate(), 'table' => $table->state()]);
     }
 
     public function create()

@@ -18,6 +18,7 @@ return [
         'children' => [
             ['label' => 'Components', 'route' => 'admin.components'],
             ['label' => 'Form elements', 'route' => 'admin.components.forms'],
+            ['label' => 'Advanced components', 'route' => 'admin.components.advanced'],
             ['label' => 'Tabler preview', 'route' => 'preview'],
         ],
     ],
