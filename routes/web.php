@@ -18,5 +18,12 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::view('/', 'admin.dashboard')->name('dashboard');
     Route::view('/settings', 'admin.page', ['title' => 'Settings'])->name('settings');
 
+    // UI catalog for developers: only available in the local environment.
+    Route::get('/components', function () {
+        abort_unless(app()->isLocal(), 404);
+
+        return view('admin.components');
+    })->name('components');
+
     Route::resource('users', UserController::class)->except('show')->middleware('can:manage-users');
 });

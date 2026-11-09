@@ -97,6 +97,16 @@ class AuthTest extends TestCase
         $this->assertModelExists($admin);
     }
 
+    public function test_component_catalog_renders_only_in_local(): void
+    {
+        $this->actingAs(User::factory()->create());
+
+        $this->get('/admin/components')->assertNotFound();
+
+        $this->app->detectEnvironment(fn () => 'local');
+        $this->get('/admin/components')->assertOk()->assertSee('x-delete-button', false);
+    }
+
     public function test_artisan_command_creates_super_admin(): void
     {
         $this->artisan('admin:create', [
