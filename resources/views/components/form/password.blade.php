@@ -1,7 +1,11 @@
-@props(['name' => 'password', 'label' => __('Password'), 'required' => false, 'hint' => null, 'autocomplete' => 'current-password'])
+{{-- Password field with show/hide button. Optional `aside` slot: text on the right of the label (e.g. "Forgot password?"). --}}
+@props(['name' => 'password', 'label' => __('Password'), 'required' => false, 'hint' => null, 'autocomplete' => 'current-password', 'aside' => null])
 
 <div class="mb-3">
-    <label class="form-label {{ $required ? 'required' : '' }}" for="{{ $name }}">{{ $label }}</label>
+    <div class="d-flex">
+        <label class="form-label {{ $required ? 'required' : '' }}" for="{{ $name }}">{{ $label }}</label>
+        @if ($aside)<span class="form-label-description ms-auto">{{ $aside }}</span>@endif
+    </div>
     <div class="input-group input-group-flat">
         <input id="{{ $name }}" type="password" name="{{ $name }}" autocomplete="{{ $autocomplete }}"
             {{ $attributes->class(['form-control', 'is-invalid' => $errors->has($name)]) }}>

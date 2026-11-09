@@ -10,7 +10,10 @@
         <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
             <span class="dropdown-item-text text-secondary small">{{ auth()->user()->email }}</span>
             <div class="dropdown-divider"></div>
-            <a href="{{ route('admin.settings') }}" class="dropdown-item">{{ __('Settings') }}</a>
+            <a href="{{ route('admin.profile') }}" class="dropdown-item">{{ __('Profile') }}</a>
+            @can('manage-settings')
+                <a href="{{ route('admin.settings') }}" class="dropdown-item">{{ __('Settings') }}</a>
+            @endcan
             <form action="{{ route('logout') }}" method="post">
                 @csrf
                 <button type="submit" class="dropdown-item">{{ __('Logout') }}</button>

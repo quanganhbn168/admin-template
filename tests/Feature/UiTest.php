@@ -22,13 +22,13 @@ class UiTest extends TestCase
     {
         config([
             'ui.layout' => 'vertical', 'ui.width' => 'boxed', 'ui.sidebar' => 'folded', 'ui.navbar_sticky' => true,
-            'ui.navbar_style' => 'floating', 'ui.navbar_theme' => 'dark',
+            'ui.navbar_style' => 'floating',
             'ui.theme' => ['primary' => 'green', 'base' => 'slate', 'font' => 'serif', 'radius' => '2'],
         ]);
 
         $this->assertSame([
             'navbar-position' => 'vertical', 'layout' => 'boxed', 'sidebar' => 'folded', 'navbar' => 'sticky',
-            'navbar-style' => 'floating', 'navbar-theme' => 'dark',
+            'navbar-style' => 'floating',
             'theme-primary' => 'green', 'theme-base' => 'slate', 'theme-font' => 'serif', 'theme-radius' => '2',
         ], Ui::attributes());
     }

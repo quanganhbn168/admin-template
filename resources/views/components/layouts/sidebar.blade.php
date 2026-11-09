@@ -1,4 +1,4 @@
-{{-- Vertical layout: sidebar (colour from config/ui.php navbar_theme). --}}
+{{-- Vertical layout: sidebar (look from config/ui.php). --}}
 <aside class="navbar navbar-vertical navbar-expand-lg {{ App\Support\Ui::sidebarClasses() }}">
     <div class="container-fluid">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar-menu" aria-controls="sidebar-menu" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">

@@ -5,7 +5,9 @@
             <form action="{{ route('login.store') }}" method="post" novalidate>
                 @csrf
                 <x-form.input name="email" type="email" :label="__('Email address')" placeholder="your@email.com" autofocus autocomplete="username" />
-                <x-form.password :placeholder="__('Your password')" />
+                <x-form.password :placeholder="__('Your password')">
+                    <x-slot:aside><a href="{{ route('password.request') }}">{{ __('I forgot my password') }}</a></x-slot:aside>
+                </x-form.password>
                 <div class="mb-2">
                     <label class="form-check">
                         <input type="checkbox" name="remember" class="form-check-input">

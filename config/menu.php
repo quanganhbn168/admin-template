@@ -10,7 +10,7 @@
 return [
     ['label' => 'Dashboard', 'icon' => 'ti-home', 'route' => 'admin.dashboard'],
     ['label' => 'Users', 'icon' => 'ti-users', 'route' => 'admin.users.index', 'match' => 'admin.users.*', 'can' => 'manage-users'],
-    ['label' => 'Settings', 'icon' => 'ti-settings', 'route' => 'admin.settings'],
+    ['label' => 'Settings', 'icon' => 'ti-settings', 'route' => 'admin.settings', 'match' => 'admin.settings*', 'can' => 'manage-settings'],
     [
         'label' => 'Developer',
         'icon' => 'ti-code',

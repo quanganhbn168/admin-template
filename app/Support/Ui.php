@@ -25,7 +25,6 @@ class Ui
             'sidebar' => $vertical ? self::pick(config('ui.sidebar'), ['folded', 'folded-hover']) : null,
             'navbar' => filter_var(config('ui.navbar_sticky'), FILTER_VALIDATE_BOOLEAN) ? 'sticky' : null,
             'navbar-style' => self::pick(config('ui.navbar_style'), ['floating']),
-            'navbar-theme' => self::pick(config('ui.navbar_theme'), ['dark']),
             'theme-primary' => self::differs($theme['primary'], 'blue'),
             'theme-base' => self::differs($theme['base'], 'neutral'),
             'theme-font' => self::differs($theme['font'], 'sans-serif'),

@@ -25,9 +25,6 @@ return [
     // Navbar look: default | floating
     'navbar_style' => env('UI_NAVBAR_STYLE', 'default'),
 
-    // Navbar colour: default (light) | dark
-    'navbar_theme' => env('UI_NAVBAR_THEME', 'default'),
-
     // Colour theme
     'theme' => [
         // blue azure indigo purple pink red orange yellow lime green teal cyan inverted

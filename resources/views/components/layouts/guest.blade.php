@@ -13,6 +13,7 @@
             <div class="text-center mb-4">
                 <a href="{{ url('/') }}" class="navbar-brand navbar-brand-autodark fs-2 fw-bold">{{ config('app.name') }}</a>
             </div>
+            <x-flash />
             {{ $slot }}
         </div>
     </main>

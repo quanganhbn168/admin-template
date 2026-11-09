@@ -40,7 +40,7 @@ class DashboardTest extends TestCase
         foreach (['vertical' => 'navbar-vertical', 'horizontal' => 'navbar-menu', 'condensed' => 'navbar-menu'] as $layout => $marker) {
             config(['ui.layout' => $layout]);
 
-            $this->get('/admin')->assertOk()->assertSee($marker, false)->assertSee(__('Settings'));
+            $this->get('/admin')->assertOk()->assertSee($marker, false)->assertSee(__('Profile'))->assertDontSee(route('admin.settings'), false);
         }
     }
 
