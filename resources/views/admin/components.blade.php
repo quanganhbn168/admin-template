@@ -20,7 +20,11 @@
             'x-offcanvas' => '<x-offcanvas id="p1" title="..." placement="end">..</x-offcanvas>   (mở: data-bs-toggle="offcanvas")',
             'x-progress / x-steps / x-placeholder' => '<x-progress :value="65" />, <x-steps :items="[..]" :current="2" />, <x-placeholder :lines="3" />',
             'x-tooltip / x-toast / x-ribbon' => '<x-tooltip text="..">..</x-tooltip>, <x-toast title="..">..</x-toast> (tự hiện), <x-ribbon>New</x-ribbon>',
-            'x-carousel / x-timeline' => '<x-carousel :images="[urls]" />, <x-timeline :items="[[title,time,text]]" />',
+            'x-carousel / x-timeline' => '<x-carousel :images="[urls]" />, <x-timeline :items="[[title,text,time,icon,color]]" />',
+            'x-chart' => '<x-chart type="line|area|bar|donut|radialBar" :series="[..]" :categories="[..]" :height="240" sparkline />   (ApexCharts, nạp khi cần)',
+            'x-widget.stat / .progress / .mini / .chart' => '<x-widget.stat label value :trend="2" note :periods="[..]"> <x-chart/> </x-widget.stat>  ·  xem dashboard',
+            'x-trend' => '<x-trend :value="2" />  (xanh ↑, đỏ ↓, xám khi 0)',
+            'Layout' => 'UI_LAYOUT trong .env: vertical | horizontal | condensed  ·  menu ở config/menu.php',
             'x-social-button' => '<x-social-button provider="github" />   (facebook, github, google, instagram, linkedin, pinterest, twitter, x, youtube)',
             'Pagination' => '{{ $paginator->links() }}  (đã có kiểu Bootstrap/Tabler sẵn)',
             'x-form.*' => 'input, password, select, textarea, checkbox (switch)',
@@ -131,8 +135,8 @@
                         @endforeach
                     </div>
                     <x-timeline :items="[
-                        ['title' => 'Tạo tài khoản', 'time' => '09:00', 'text' => 'Super admin tạo tài khoản.'],
-                        ['title' => 'Đăng nhập lần đầu', 'time' => '09:05'],
+                        ['title' => 'Tạo tài khoản', 'time' => '09:00', 'text' => 'Super admin tạo tài khoản.', 'icon' => 'ti-user-plus', 'color' => 'green'],
+                        ['title' => 'Đăng nhập lần đầu', 'time' => '09:05', 'icon' => 'ti-login'],
                     ]" />
                 </div>
             </x-card>

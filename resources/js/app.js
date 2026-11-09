@@ -20,3 +20,8 @@ document.addEventListener('click', (event) => {
 
 // <x-toast> renders with data-auto-show: display it as soon as the page is ready.
 document.querySelectorAll('.toast[data-auto-show]').forEach((el) => Toast.getOrCreateInstance(el).show());
+
+// <x-chart> renders [data-chart]: load ApexCharts only on pages that need it.
+if (document.querySelector('[data-chart]')) {
+    import('./charts.js');
+}

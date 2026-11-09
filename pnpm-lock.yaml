@@ -14,6 +14,9 @@ importers:
       '@tabler/icons-webfont':
         specifier: ^3.50.0
         version: 3.50.0
+      apexcharts:
+        specifier: ^8.8.1
+        version: 8.8.1
     devDependencies:
       concurrently:
         specifier: ^10.0.3
@@ -176,6 +179,13 @@ packages:
   ansi-styles@7.0.0:
     resolution: {integrity: sha512-kKvt3m4uwzqL0wlkPd09CmljPJGOZZ4D0fP65sqFSvPkMRKhNi+74MgIJ5QxE6SxqB4t4KyUFGg8+n5zjo6hew==}
     engines: {node: '>=22'}
+
+  apex-commons@0.10.0:
+    resolution: {integrity: sha512-mBXqK6wykMnWV4TzT9636k4aaeEvE8PmBIfa2bHx91eQoit8RjJrOlBpGxNGz1Bmt6gq2U3CoqPAUZftBbYdLQ==}
+
+  apexcharts@8.8.1:
+    resolution: {integrity: sha512-Aeha39Wdrg4pTdJTpM+QsQemLoCRpwC5tEgwHYzbvtRxo4E9EmQ6zdTZbhcYia24HyPhqx3IATd1evgS0lRtzw==}
+    engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0}
 
   auto-bind@5.0.1:
     resolution: {integrity: sha512-ooviqdwwgfIfNmDwo94wlshcdzfO64XV0Cg6oDsDYBJfITDz1EngD2z7DkbvCWn+XIMsIqW27sEVF6qcpJrRcg==}
@@ -672,6 +682,12 @@ snapshots:
 
   ansi-styles@7.0.0:
     optional: true
+
+  apex-commons@0.10.0: {}
+
+  apexcharts@8.8.1:
+    dependencies:
+      apex-commons: 0.10.0
 
   auto-bind@5.0.1:
     optional: true
