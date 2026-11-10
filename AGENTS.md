@@ -23,7 +23,7 @@ Khung quản trị Laravel 13 + Tabler 1.7, tiếng Việt, dùng làm gốc cho
 ## Kiểm tra khi sửa
 
 - Thêm hoặc sửa tính năng thì thêm test trong `tests/Feature/`. Chạy `php artisan test` phải xanh.
-- Sửa giao diện: kiểm tra trên trình duyệt thật (kể cả khổ hẹp), không chỉ dựa vào test render.
+- Sửa giao diện: kiểm tra trên trình duyệt thật ở màn hình máy tính (admin này không nhắm tới điện thoại), không chỉ dựa vào test render.
 - Không commit `.env`, `vendor`, `node_modules`, `public/build`, `public/tabler`.
 
 ## Bản xem thử Tabler
