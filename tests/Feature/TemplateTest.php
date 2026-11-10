@@ -4,9 +4,12 @@ namespace Tests\Feature;
 
 use App\Console\Commands\StripPreview;
 use App\Models\User;
+use App\Settings\GeneralSettings;
 use App\Support\Menu;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Schema;
 use Tests\TestCase;
 
 class TemplateTest extends TestCase
@@ -95,5 +98,27 @@ class TemplateTest extends TestCase
             $this->assertStringContainsString($key, $env, $key);
         }
         $this->assertStringNotContainsString('SUPER_ADMIN', $env, 'no default passwords in .env.example');
+    }
+
+    public function test_the_settings_migration_replaces_the_legacy_key_value_table(): void
+    {
+        Schema::drop('settings');
+        Schema::create('settings', function (Blueprint $table) {
+            $table->string('key')->primary();
+            $table->text('value')->nullable();
+        });
+
+        (require database_path('migrations/2026_11_10_000000_create_settings_table.php'))->up();
+
+        $this->assertTrue(Schema::hasColumns('settings', ['group', 'name', 'payload']));
+        $this->assertFalse(Schema::hasColumn('settings', 'key'));
+    }
+
+    public function test_footer_note_helper_is_empty_when_the_settings_table_is_missing(): void
+    {
+        Schema::drop('settings');
+        app()->forgetInstance(GeneralSettings::class);
+
+        $this->assertSame('', GeneralSettings::footer());
     }
 }

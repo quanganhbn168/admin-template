@@ -2,9 +2,9 @@
 
 namespace Tests\Feature;
 
-use App\Models\Setting;
 use App\Models\User;
 use App\Providers\AppServiceProvider;
+use App\Settings\GeneralSettings;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
@@ -121,13 +121,21 @@ class AccountTest extends TestCase
 
     // --- settings ----------------------------------------------------------------
 
+    /** A fresh copy read from the database (the container may still hold an instance loaded earlier). */
+    private function settings(): GeneralSettings
+    {
+        app()->forgetInstance(GeneralSettings::class);
+
+        return app(GeneralSettings::class);
+    }
+
     public function test_settings_are_for_super_admins_only(): void
     {
         $this->actingAs(User::factory()->create());
 
         $this->get('/admin/settings')->assertForbidden();
         $this->put('/admin/settings', ['app_name' => 'X', 'timezone' => 'UTC'])->assertForbidden();
-        $this->assertNull(Setting::get('app_name'));
+        $this->assertNull($this->settings()->app_name);
     }
 
     public function test_super_admin_saves_settings(): void
@@ -140,8 +148,8 @@ class AccountTest extends TestCase
             'app_name' => 'Cửa hàng An Phát', 'contact_email' => 'hello@example.com', 'timezone' => 'Asia/Ho_Chi_Minh',
         ])->assertSessionHas('success');
 
-        $this->assertSame('Cửa hàng An Phát', Setting::get('app_name'));
-        $this->assertSame('hello@example.com', Setting::get('contact_email'));
+        $this->assertSame('Cửa hàng An Phát', $this->settings()->app_name);
+        $this->assertSame('hello@example.com', $this->settings()->contact_email);
     }
 
     public function test_settings_are_validated(): void
@@ -155,7 +163,10 @@ class AccountTest extends TestCase
     public function test_saved_app_name_is_used_on_the_next_request(): void
     {
         $this->actingAs($this->superAdmin());
-        Setting::put(['app_name' => 'Tên mới', 'timezone' => 'Asia/Tokyo']);
+        $general = $this->settings();
+        $general->app_name = 'Tên mới';
+        $general->timezone = 'Asia/Tokyo';
+        $general->save();
 
         // the provider applies saved settings every time the application boots
         $this->app->getProvider(AppServiceProvider::class)->boot();

@@ -16,6 +16,7 @@ Khung quản trị Laravel 13 + Tabler 1.7, tiếng Việt, dùng làm gốc cho
 - **Menu** chỉ khai báo ở `config/menu.php`. **Giao diện** (layout, màu) chỉ đổi qua `config/ui.php` và `.env`.
 - **Danh sách có tìm kiếm, sắp xếp, phân trang**: dùng `App\Support\DataTable` cùng `x-table.toolbar`, `x-table.th`, `x-table.footer`.
 - **HTML do người dùng nhập** (trình soạn thảo): luôn qua `App\Support\Html::clean()` khi lưu và khi in bằng `{!! !!}`.
+- **Cài đặt ứng dụng** luôn dùng `spatie/laravel-settings`: một class trong `app/Settings` cho mỗi nhóm cùng settings migration trong `database/settings/`. Không tự tạo bảng key-value riêng.
 - Không có đăng ký công khai; quyền dùng Gate (`manage-users`, `manage-settings`), khai báo ở `AppServiceProvider`.
 - Thư viện JS của Tabler nạp theo nhu cầu bằng `<x-lib name="...">` (xem `components/lib.blade.php`), không thêm thẻ script rải rác.
 - Dùng `Illuminate`/Laravel có sẵn trước khi thêm gói mới.

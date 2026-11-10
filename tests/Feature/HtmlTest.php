@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Models\Setting;
 use App\Models\User;
+use App\Settings\GeneralSettings;
 use App\Support\Html;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
@@ -68,7 +68,8 @@ class HtmlTest extends TestCase
             'footer_note' => '<p>Liên hệ <strong>ngay</strong></p><script>alert(1)</script><img src="/x.png" onerror="alert(2)">',
         ])->assertSessionHas('success');
 
-        $stored = Setting::get('footer_note');
+        app()->forgetInstance(GeneralSettings::class);
+        $stored = app(GeneralSettings::class)->footer_note;
         $this->assertStringContainsString('<strong>ngay</strong>', $stored);
         $this->assertStringNotContainsString('script', $stored);
         $this->assertStringNotContainsString('onerror', $stored);
@@ -78,7 +79,9 @@ class HtmlTest extends TestCase
 
     public function test_even_a_tampered_stored_value_is_cleaned_when_rendered(): void
     {
-        Setting::put(['footer_note' => '<p>ok</p><script>alert("stored")</script>']);
+        $settings = app(GeneralSettings::class);
+        $settings->footer_note = '<p>ok</p><script>alert("stored")</script>'; // bypasses the controller on purpose
+        $settings->save();
         $this->actingAs(User::factory()->create());
 
         $this->get('/admin')->assertOk()->assertSee('<p>ok</p>', false)->assertDontSee('alert("stored")', false);

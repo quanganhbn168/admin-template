@@ -79,6 +79,8 @@ return view('admin.products.index', ['products' => $table->paginate(), 'table' =
 
 **Component có sẵn**: mở `/admin/components` (và `/forms`, `/cards`, `/advanced`) khi chạy `APP_ENV=local`. Mỗi trang là danh mục kèm cách dùng. Component nằm ở `resources/views/components/`.
 
+**Cài đặt ứng dụng**: dùng [`spatie/laravel-settings`](https://github.com/spatie/laravel-settings), mỗi nhóm một class có kiểu rõ ràng trong `app/Settings` (có sẵn `GeneralSettings`: tên ứng dụng, email liên hệ, múi giờ, ghi chú chân trang). Thêm nhóm mới: tạo class `app/Settings/CompanySettings.php` kèm `group()`, rồi một settings migration trong `database/settings/` (mẫu: `2026_11_10_000001_create_general_settings.php`) và chạy `php artisan migrate`. Đọc giá trị bằng cách tiêm class vào controller hoặc `app(CompanySettings::class)->ten`. Giá trị `null` của tên ứng dụng và múi giờ nghĩa là dùng lại `.env`.
+
 **Tiếng Việt**: viết `__('English text')` trong view, thêm bản dịch vào `lang/vi.json`.
 
 **HTML từ trình soạn thảo**: luôn làm sạch bằng `App\Support\Html::clean()` trước khi lưu và hiển thị.
@@ -88,6 +90,7 @@ return view('admin.products.index', ['products' => $table->paginate(), 'table' =
 ## Cấu trúc
 
 ```
+app/Settings/       cài đặt ứng dụng (spatie/laravel-settings), mỗi nhóm một class
 app/Support/        DataTable, Html (làm sạch HTML), Menu, Ui (cấu hình giao diện)
 config/ui.php       giao diện        config/menu.php   menu điều hướng
 resources/views/

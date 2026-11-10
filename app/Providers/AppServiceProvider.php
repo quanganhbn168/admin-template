@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use App\Models\Setting;
 use App\Models\User;
+use App\Settings\GeneralSettings;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -26,14 +26,23 @@ class AppServiceProvider extends ServiceProvider
         $this->applySettings();
     }
 
-    /** Settings saved in Admin > Settings override the values from config/app.php. */
+    /** Settings saved in Admin > Settings override the values from config/app.php (null = keep the config value). */
     private function applySettings(): void
     {
-        if (filled($name = Setting::get('app_name'))) {
+        try {
+            $general = app(GeneralSettings::class);
+            $name = $general->app_name;
+            $zone = $general->timezone;
+        } catch (\Throwable) {
+            // The settings table does not exist yet (e.g. while running the first migration).
+            return;
+        }
+
+        if (filled($name)) {
             config(['app.name' => $name]);
         }
 
-        if (filled($zone = Setting::get('timezone')) && in_array($zone, timezone_identifiers_list(), true)) {
+        if (filled($zone) && in_array($zone, timezone_identifiers_list(), true)) {
             config(['app.timezone' => $zone]);
             date_default_timezone_set($zone);
         }
